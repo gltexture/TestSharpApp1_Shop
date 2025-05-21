@@ -60,7 +60,7 @@ namespace AppSharp1
             string name = clientNameTextBox.Text.Trim();
             if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Name is empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Имя пустое!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -75,7 +75,7 @@ namespace AppSharp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding client: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -84,23 +84,43 @@ namespace AppSharp1
             int selectedIndex = ClientsListBox.SelectedIndex;
             if (selectedIndex == -1)
             {
-                MessageBox.Show("Select a client!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Нужно выбрать клиента!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             var client = clients[selectedIndex];
 
-            try
+            using (var tx = DataBase.Connection.BeginTransaction())
             {
-                var cmd = new NpgsqlCommand("DELETE FROM clients WHERE id = @id", DataBase.Connection);
-                cmd.Parameters.AddWithValue("id", client.Id);
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    using (var cmd1 = new NpgsqlCommand("DELETE FROM order_items WHERE order_id IN (SELECT id FROM orders WHERE client_id = @cid)", DataBase.Connection, tx))
+                    {
+                        cmd1.Parameters.AddWithValue("@cid", client.Id);
+                        cmd1.ExecuteNonQuery();
+                    }
 
-                LoadClients();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to remove client: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    using (var cmd2 = new NpgsqlCommand("DELETE FROM orders WHERE client_id = @cid", DataBase.Connection, tx))
+                    {
+                        cmd2.Parameters.AddWithValue("@cid", client.Id);
+                        cmd2.ExecuteNonQuery();
+                    }
+
+                    using (var cmd3 = new NpgsqlCommand("DELETE FROM clients WHERE id = @cid", DataBase.Connection, tx))
+                    {
+                        cmd3.Parameters.AddWithValue("@cid", client.Id);
+                        cmd3.ExecuteNonQuery();
+                    }
+
+                    tx.Commit();
+
+                    LoadClients();
+                }
+                catch (Exception ex)
+                {
+                    tx.Rollback();
+                    MessageBox.Show($"Не удалось удалить клиента: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -131,14 +151,14 @@ namespace AppSharp1
             string name = clientNameTextBox.Text.Trim();
             if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Name is empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Имя пустое!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int selectedIndex = ClientsListBox.SelectedIndex;
             if (selectedIndex == -1)
             {
-                MessageBox.Show("Select a client!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Нужно выбрать клиента!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -156,7 +176,7 @@ namespace AppSharp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding client: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

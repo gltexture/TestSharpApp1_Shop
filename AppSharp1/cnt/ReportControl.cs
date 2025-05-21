@@ -72,61 +72,59 @@ namespace AppSharp1.cnt
                 foreach (var client in selectedClients)
                 {
                     var cmd = new NpgsqlCommand(@"
-            SELECT oi.product_id, p.name, oi.quantity, oi.delivered, p.price
-            FROM orders o
-            JOIN order_items oi ON o.id = oi.order_id
-            JOIN products p ON oi.product_id = p.id
-            WHERE o.client_id = @cid AND DATE(o.order_date) = @dt", DataBase.Connection);
+                SELECT oi.product_id, 
+                       p.name, 
+                       oi.quantity, 
+                       oi.delivered, 
+                       p.price
+                FROM orders o
+                JOIN order_items oi ON o.id = oi.order_id
+                JOIN products p ON oi.product_id = p.id
+                WHERE o.client_id = @cid AND DATE(o.order_date) = @dt", DataBase.Connection);
 
                     cmd.Parameters.AddWithValue("@cid", client.Id);
                     cmd.Parameters.AddWithValue("@dt", selectedDate.Date);
 
-                    var reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        int pid = reader.GetInt32(0);
-                        string pname = reader.GetString(1);
-                        int quantity = reader.GetInt32(2);
-                        bool delivered = reader.GetBoolean(3);
-                        int priceId = reader.GetInt32(4);
-
-                        if (!delivered)
+                        while (reader.Read())
                         {
-                            var priceItem = MainControl.priceList.FirstOrDefault(p => p.Id == priceId);
-                            if (priceItem == null)
-                            {
-                                continue;
-                            }
+                            int pid = reader.GetInt32(0);
+                            string pname = reader.GetString(1);
+                            int quantity = reader.GetInt32(2);
+                            bool delivered = reader.GetBoolean(3);
+                            decimal price = reader.GetDecimal(4);
 
-                            decimal price = priceItem.Price;
-                            decimal sum = quantity * price;
-
-                            if (reportData.ContainsKey(pid))
+                            if (!delivered)
                             {
-                                var existing = reportData[pid];
-                                reportData[pid] = (pname, existing.sum + sum);
-                            }
-                            else
-                            {
-                                reportData[pid] = (pname, sum);
-                            }
+                                decimal sum = quantity * price;
 
-                            reportText.AppendLine($"Client: {client.Name}, Product: {pname}, Quantity: {quantity}, Summ: {sum:C}");
+                                if (reportData.ContainsKey(pid))
+                                {
+                                    var existing = reportData[pid];
+                                    reportData[pid] = (pname, existing.sum + sum);
+                                }
+                                else
+                                {
+                                    reportData[pid] = (pname, sum);
+                                }
+
+                                reportText.AppendLine($"Клиент: {client.Name}, Товаро: {pname}, Количество: {quantity}, Итог. стоимость: {sum:C}");
+                            }
                         }
                     }
-                    reader.Close();
                 }
 
                 if (reportData.Count == 0)
                 {
-                    MessageBox.Show("No data on current date.", "Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("На выбранную дату нет данных.", "Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
                 MessageBox.Show(reportText.ToString(), "Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 chart1.Series.Clear();
-                var series = new System.Windows.Forms.DataVisualization.Charting.Series("Non-Delivered");
+                var series = new System.Windows.Forms.DataVisualization.Charting.Series("Не доставлено");
                 series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
 
                 foreach (var (name, sum) in reportData.Values)

@@ -13,10 +13,10 @@ namespace AppSharp1
 
     public enum Page
     {
-        Main = 0,
-        Clients = 1,
-        Products = 2,
-        Orders = 3,
-        Report = 4
+        Main = 66,
+        Clients = 0,
+        Products = 1,
+        Orders = 2,
+        Report = 3
     }
 }

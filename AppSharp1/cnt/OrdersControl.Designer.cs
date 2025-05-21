@@ -44,29 +44,31 @@
             this.buttonSetQuanity = new System.Windows.Forms.Button();
             this.OrderItemsListBox = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.removeItem = new System.Windows.Forms.Button();
+            this.addItems = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 247);
+            this.label3.Location = new System.Drawing.Point(11, 247);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 23;
-            this.label3.Text = "Clients:";
+            this.label3.Text = "Клиенты:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(608, 266);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 22;
-            this.label2.Text = "Quantity:";
+            this.label2.Text = "Количество:";
             // 
             // orderQuanityTextBox
             // 
-            this.orderQuanityTextBox.Location = new System.Drawing.Point(655, 263);
+            this.orderQuanityTextBox.Location = new System.Drawing.Point(674, 263);
             this.orderQuanityTextBox.Name = "orderQuanityTextBox";
             this.orderQuanityTextBox.Size = new System.Drawing.Size(100, 20);
             this.orderQuanityTextBox.TabIndex = 21;
@@ -95,7 +97,7 @@
             this.buttonAddOrder.Name = "buttonAddOrder";
             this.buttonAddOrder.Size = new System.Drawing.Size(75, 23);
             this.buttonAddOrder.TabIndex = 16;
-            this.buttonAddOrder.Text = "Add New";
+            this.buttonAddOrder.Text = "Добавить";
             this.buttonAddOrder.UseVisualStyleBackColor = true;
             this.buttonAddOrder.Click += new System.EventHandler(this.ButtonAddOrder_Click);
             // 
@@ -113,9 +115,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(11, 335);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
+            this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 24;
-            this.label4.Text = "Products:";
+            this.label4.Text = "Товары:";
             // 
             // ProductsListBox
             // 
@@ -127,21 +129,21 @@
             // 
             // DeliveredTrueButton
             // 
-            this.DeliveredTrueButton.Location = new System.Drawing.Point(607, 53);
+            this.DeliveredTrueButton.Location = new System.Drawing.Point(611, 335);
             this.DeliveredTrueButton.Name = "DeliveredTrueButton";
             this.DeliveredTrueButton.Size = new System.Drawing.Size(104, 23);
             this.DeliveredTrueButton.TabIndex = 26;
-            this.DeliveredTrueButton.Text = "Delivered=true";
+            this.DeliveredTrueButton.Text = "Доставлен";
             this.DeliveredTrueButton.UseVisualStyleBackColor = true;
             this.DeliveredTrueButton.Click += new System.EventHandler(this.DeliveredTrueButton_Click);
             // 
             // DeliveredFalseButton
             // 
-            this.DeliveredFalseButton.Location = new System.Drawing.Point(607, 82);
+            this.DeliveredFalseButton.Location = new System.Drawing.Point(611, 361);
             this.DeliveredFalseButton.Name = "DeliveredFalseButton";
             this.DeliveredFalseButton.Size = new System.Drawing.Size(104, 23);
             this.DeliveredFalseButton.TabIndex = 27;
-            this.DeliveredFalseButton.Text = "Delivered=false";
+            this.DeliveredFalseButton.Text = "Не доставлен";
             this.DeliveredFalseButton.UseVisualStyleBackColor = true;
             this.DeliveredFalseButton.Click += new System.EventHandler(this.DeliveredFalseButton_Click);
             // 
@@ -155,19 +157,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(175, 3);
+            this.label1.Location = new System.Drawing.Point(167, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 29;
-            this.label1.Text = "Orders:";
+            this.label1.Text = "Заказы:";
             // 
             // buttonSetQuanity
             // 
             this.buttonSetQuanity.Location = new System.Drawing.Point(611, 289);
             this.buttonSetQuanity.Name = "buttonSetQuanity";
-            this.buttonSetQuanity.Size = new System.Drawing.Size(75, 23);
+            this.buttonSetQuanity.Size = new System.Drawing.Size(122, 40);
             this.buttonSetQuanity.TabIndex = 30;
-            this.buttonSetQuanity.Text = "SetQuantity";
+            this.buttonSetQuanity.Text = "Задать количество выбранному товару";
             this.buttonSetQuanity.UseVisualStyleBackColor = true;
             this.buttonSetQuanity.Click += new System.EventHandler(this.ButtonSetQuanity_Click);
             // 
@@ -176,22 +178,44 @@
             this.OrderItemsListBox.FormattingEnabled = true;
             this.OrderItemsListBox.Location = new System.Drawing.Point(299, 263);
             this.OrderItemsListBox.Name = "OrderItemsListBox";
-            this.OrderItemsListBox.Size = new System.Drawing.Size(302, 121);
+            this.OrderItemsListBox.Size = new System.Drawing.Size(302, 108);
             this.OrderItemsListBox.TabIndex = 31;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(299, 247);
+            this.label5.Location = new System.Drawing.Point(296, 247);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.Size = new System.Drawing.Size(88, 13);
             this.label5.TabIndex = 32;
-            this.label5.Text = "Order Items:";
+            this.label5.Text = "Товары заказа:";
+            // 
+            // removeItem
+            // 
+            this.removeItem.Location = new System.Drawing.Point(299, 377);
+            this.removeItem.Name = "removeItem";
+            this.removeItem.Size = new System.Drawing.Size(102, 23);
+            this.removeItem.TabIndex = 33;
+            this.removeItem.Text = "Удалить выбр.";
+            this.removeItem.UseVisualStyleBackColor = true;
+            this.removeItem.Click += new System.EventHandler(this.ButtonRemoveItem_Click);
+            // 
+            // addItems
+            // 
+            this.addItems.Location = new System.Drawing.Point(482, 379);
+            this.addItems.Name = "addItems";
+            this.addItems.Size = new System.Drawing.Size(119, 38);
+            this.addItems.TabIndex = 34;
+            this.addItems.Text = "Добавить из списка тов.";
+            this.addItems.UseVisualStyleBackColor = true;
+            this.addItems.Click += new System.EventHandler(this.ButtonAddItem_Click);
             // 
             // OrdersControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.addItems);
+            this.Controls.Add(this.removeItem);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.OrderItemsListBox);
             this.Controls.Add(this.buttonSetQuanity);
@@ -233,5 +257,7 @@
         private System.Windows.Forms.Button buttonSetQuanity;
         private System.Windows.Forms.ListBox OrderItemsListBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button removeItem;
+        private System.Windows.Forms.Button addItems;
     }
 }

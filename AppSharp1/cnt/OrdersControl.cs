@@ -91,21 +91,21 @@ namespace AppSharp1.cnt
             try
             {
                 var raw = new List<(int Oid, int Cid, DateTime Dt)>();
-                var cmd = new NpgsqlCommand("SELECT id, client_id, order_date FROM orders ORDER BY id", DataBase.Connection);
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (var cmd = new NpgsqlCommand("SELECT id, client_id, order_date FROM orders ORDER BY id", DataBase.Connection))
+                using (var reader = cmd.ExecuteReader())
                 {
-                    raw.Add((
-                        reader.GetInt32(0),
-                        reader.GetInt32(1),
-                        reader.GetDateTime(2)
-                    ));
+                    while (reader.Read())
+                        raw.Add((reader.GetInt32(0), reader.GetInt32(1), reader.GetDateTime(2)));
                 }
-                reader.Close();
 
                 foreach (var (oid, cid, dt) in raw)
                 {
-                    var client = this.clients.First(c => c.Id == cid);
+                    var client = this.clients.FirstOrDefault(c => c.Id == cid);
+                    if (client == null)
+                    {
+                        client = new ClientsControl.ClientItem(cid, "<Незивестный клиент>");
+                    }
+
                     var items = this.LoadOrderItems(oid);
                     var order = new Order(oid, client, dt, items);
                     this.orders.Add(order);
@@ -121,27 +121,35 @@ namespace AppSharp1.cnt
         private List<OrderItem> LoadOrderItems(int orderId)
         {
             var list = new List<OrderItem>();
-
             try
             {
-                var cmd = new NpgsqlCommand("SELECT product_id, quantity, delivered FROM order_items WHERE order_id = @oid", DataBase.Connection);
-                cmd.Parameters.AddWithValue("@oid", orderId);
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (var cmd = new NpgsqlCommand("SELECT product_id, quantity, delivered FROM order_items WHERE order_id = @oid",
+                    DataBase.Connection))
                 {
-                    int pid = reader.GetInt32(0);
-                    int qty = reader.GetInt32(1);
-                    bool delivered = reader.GetBoolean(2);
-                    var prod = this.products.First(p => p.Id == pid);
-                    list.Add(new OrderItem(prod, qty, delivered));
+                    cmd.Parameters.AddWithValue("@oid", orderId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int pid = reader.GetInt32(0);
+                            int qty = reader.GetInt32(1);
+                            bool delivered = reader.GetBoolean(2);
+
+                            var prod = this.products.FirstOrDefault(p => p.Id == pid);
+                            if (prod == null)
+                            {
+                                prod = new ProductsControl.ProductItem(pid, "<Неизвестный товар>", 0m);
+                            }
+
+                            list.Add(new OrderItem(prod, qty, delivered));
+                        }
+                    }
                 }
-                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
             return list;
         }
 
@@ -162,6 +170,7 @@ namespace AppSharp1.cnt
             int cidx = this.ClientsListBox.SelectedIndex;
             if (cidx < 0)
             {
+                MessageBox.Show("Нужно выбрать клиента", "Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             var client = this.clients[cidx];
@@ -169,6 +178,7 @@ namespace AppSharp1.cnt
             var selected = this.ProductsListBox.SelectedIndices;
             if (selected.Count == 0)
             {
+                MessageBox.Show("Нужно выбрать товар", "Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -207,6 +217,52 @@ namespace AppSharp1.cnt
             this.OrdersListBox.Items.Add(this.orders.Last());
         }
 
+        private void ButtonAddItem_Click(object sender, EventArgs e)
+        {
+            int orderIndex = OrdersListBox.SelectedIndex;
+            if (orderIndex < 0) return;
+
+            var order = orders[orderIndex];
+            var selectedProdIndices = ProductsListBox.SelectedIndices;
+            if (selectedProdIndices.Count == 0) return;
+
+            foreach (int pi in selectedProdIndices)
+            {
+                var prod = products[pi];
+
+                if (order.Items.Any(item => item.Product.Id == prod.Id))
+                    continue;
+
+                var icmd = new NpgsqlCommand("INSERT INTO order_items(order_id, product_id, quantity, delivered) VALUES(@oid,@pid,@q,false)", DataBase.Connection);
+                icmd.Parameters.AddWithValue("@oid", order.Id);
+                icmd.Parameters.AddWithValue("@pid", prod.Id);
+                icmd.Parameters.AddWithValue("@q", 0);
+                icmd.ExecuteNonQuery();
+
+                var newItem = new OrderItem(prod, 0, false);
+                order.Items.Add(newItem);
+                OrderItemsListBox.Items.Add(newItem);
+            }
+        }
+
+        private void ButtonRemoveItem_Click(object sender, EventArgs e)
+        {
+            int orderIndex = OrdersListBox.SelectedIndex;
+            int itemIndex = OrderItemsListBox.SelectedIndex;
+            if (orderIndex < 0 || itemIndex < 0) return;
+
+            var order = orders[orderIndex];
+            var item = order.Items[itemIndex];
+
+            var dcmd = new NpgsqlCommand("DELETE FROM order_items WHERE order_id = @oid AND product_id = @pid", DataBase.Connection);
+            dcmd.Parameters.AddWithValue("@oid", order.Id);
+            dcmd.Parameters.AddWithValue("@pid", item.Product.Id);
+            dcmd.ExecuteNonQuery();
+
+            order.Items.RemoveAt(itemIndex);
+            OrderItemsListBox.Items.RemoveAt(itemIndex);
+        }
+
         private void buttonRemoveOrder_Click(object sender, EventArgs e)
         {
             int idx = this.OrdersListBox.SelectedIndex;
@@ -214,6 +270,7 @@ namespace AppSharp1.cnt
             {
                 return;
             }
+
             var order = this.orders[idx];
             var cmd1 = new NpgsqlCommand("DELETE FROM order_items WHERE order_id = @oid", DataBase.Connection);
             cmd1.Parameters.AddWithValue("@oid", order.Id);
@@ -248,9 +305,9 @@ namespace AppSharp1.cnt
         {
             int oidx = this.OrdersListBox.SelectedIndex;
             int iidx = this.OrderItemsListBox.SelectedIndex;
-            if (oidx < 0 || iidx < 0) 
-            { 
-                return; 
+            if (oidx < 0 || iidx < 0)
+            {
+                return;
             }
             var order = this.orders[oidx];
             var item = order.Items[iidx];

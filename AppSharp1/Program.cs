@@ -8,7 +8,7 @@ namespace AppSharp1
 {
     internal static class Program
     {
-        public static Page currentPage = Page.Main;
+        public static Page currentPage = Page.Products;
 
         [STAThread]
         static void Main()

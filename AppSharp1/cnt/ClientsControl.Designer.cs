@@ -52,7 +52,7 @@
             this.buttonAddClient.Name = "buttonAddClient";
             this.buttonAddClient.Size = new System.Drawing.Size(75, 23);
             this.buttonAddClient.TabIndex = 1;
-            this.buttonAddClient.Text = "Add New";
+            this.buttonAddClient.Text = "Добавить";
             this.buttonAddClient.UseVisualStyleBackColor = true;
             this.buttonAddClient.Click += new System.EventHandler(this.buttonAddClient_Click);
             // 
@@ -73,17 +73,17 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(0, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Name: ";
+            this.label1.Text = "Имя:";
             // 
             // buttonRemoveClient
             // 
             this.buttonRemoveClient.Location = new System.Drawing.Point(598, 3);
             this.buttonRemoveClient.Name = "buttonRemoveClient";
-            this.buttonRemoveClient.Size = new System.Drawing.Size(102, 23);
+            this.buttonRemoveClient.Size = new System.Drawing.Size(117, 46);
             this.buttonRemoveClient.TabIndex = 5;
-            this.buttonRemoveClient.Text = "Remove";
+            this.buttonRemoveClient.Text = "Удалить выбранного";
             this.buttonRemoveClient.UseVisualStyleBackColor = true;
             this.buttonRemoveClient.Click += new System.EventHandler(this.buttonRemoveClient_Click);
             // 
@@ -91,9 +91,9 @@
             // 
             this.buttonEditClient.Location = new System.Drawing.Point(93, 26);
             this.buttonEditClient.Name = "buttonEditClient";
-            this.buttonEditClient.Size = new System.Drawing.Size(102, 23);
+            this.buttonEditClient.Size = new System.Drawing.Size(102, 40);
             this.buttonEditClient.TabIndex = 6;
-            this.buttonEditClient.Text = "Edit Selected";
+            this.buttonEditClient.Text = "Изменить выбранного";
             this.buttonEditClient.UseVisualStyleBackColor = true;
             this.buttonEditClient.Click += new System.EventHandler(this.buttonEditClient_Click);
             // 

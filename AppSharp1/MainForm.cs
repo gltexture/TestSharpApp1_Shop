@@ -22,13 +22,12 @@ namespace AppSharp1
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
 
-            MainMenuMainButton.Tag = Page.Main;
             MainMenuClientsButton.Tag = Page.Clients;
             MainMenuProductsButton.Tag = Page.Products;
             MainMenuOrdersButton.Tag = Page.Orders;
             MainMenuReportButton.Tag = Page.Report;
 
-            this.LoadPage(new MainControl());
+            this.LoadPage(new ProductsControl());
         }
 
         private void UpdateMenuButtonsStyle()
@@ -46,11 +45,6 @@ namespace AppSharp1
         private void MainMenuClientsButton_Click(object sender, EventArgs e)
         {
             this.LoadPage(new ClientsControl());
-        }
-
-        private void MainMenuMainButton_Click(object sender, EventArgs e)
-        {
-            this.LoadPage(new MainControl());
         }
 
         private void MainMenuProductsButton_Click(object sender, EventArgs e)

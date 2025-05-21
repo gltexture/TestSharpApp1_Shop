@@ -100,12 +100,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cnt\MainControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="cnt\MainControl.Designer.cs">
-      <DependentUpon>MainControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="cnt\OrdersControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -140,9 +134,6 @@
       <DependentUpon>ClientsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="utils\PageInterface.cs" />
-    <EmbeddedResource Include="cnt\MainControl.resx">
-      <DependentUpon>MainControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="cnt\OrdersControl.resx">
       <DependentUpon>OrdersControl.cs</DependentUpon>
     </EmbeddedResource>
