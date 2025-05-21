@@ -37,6 +37,7 @@
             this.productIdTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.buttonEditProduct = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonRemoveProduct
@@ -116,10 +117,21 @@
             this.label3.TabIndex = 14;
             this.label3.Text = "Prices:";
             // 
+            // buttonEditProduct
+            // 
+            this.buttonEditProduct.Location = new System.Drawing.Point(95, 53);
+            this.buttonEditProduct.Name = "buttonEditProduct";
+            this.buttonEditProduct.Size = new System.Drawing.Size(109, 23);
+            this.buttonEditProduct.TabIndex = 15;
+            this.buttonEditProduct.Text = "Edit Selected";
+            this.buttonEditProduct.UseVisualStyleBackColor = true;
+            this.buttonEditProduct.Click += new System.EventHandler(this.buttonEditProduct_Click);
+            // 
             // ProductsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonEditProduct);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.productIdTextBox);
@@ -147,5 +159,6 @@
         private System.Windows.Forms.TextBox productIdTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button buttonEditProduct;
     }
 }

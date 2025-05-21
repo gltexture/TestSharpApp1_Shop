@@ -99,7 +99,7 @@ namespace AppSharp1
 
             foreach (var entry in MainControl.priceList)
             {
-                PricesListBox.Items.Add($"{entry.Id} - {entry.Price}");
+                PricesListBox.Items.Add(entry.ToString());
             }
         }
 
@@ -151,12 +151,65 @@ namespace AppSharp1
             public string GetDisplay()
             {
                 var price = MainControl.priceList.FirstOrDefault(p => p.Id == PriceId)?.Price.ToString() ?? "not found";
-                return $"{Id} - {Name} (Price: {price})";
+                return $"{Id} - {Name} (Price: {price} Rubles)";
             }
 
             public override string ToString()
             {
                 return $"{Id} - {Name}";
+            }
+        }
+
+        private void buttonEditProduct_Click(object sender, EventArgs e)
+        {
+            string name = productNameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Name is empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            decimal priceId;
+            try
+            {
+                priceId = Convert.ToDecimal(productIdTextBox.Text.Trim());
+            }
+            catch
+            {
+                MessageBox.Show("Invalid price ID!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!MainControl.priceList.Any(p => p.Id == priceId))
+            {
+                MessageBox.Show("Price ID does not exist in price list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selectedIndex = ProductsListBox.SelectedIndex;
+            if (selectedIndex == -1)
+            {
+                MessageBox.Show("Select an item!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var product = products[selectedIndex];
+
+            try
+            {
+                var cmd = new NpgsqlCommand("UPDATE products SET name = @name, price = @price WHERE @pid = id", DataBase.Connection);
+                cmd.Parameters.AddWithValue("@pid", product.Id);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@price", priceId);
+                cmd.ExecuteNonQuery();
+
+                productNameTextBox.Clear();
+                productIdTextBox.Clear();
+                LoadProducts();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

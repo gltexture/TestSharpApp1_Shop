@@ -125,6 +125,39 @@ namespace AppSharp1
                 return GetDisplay();
             }
         }
-    }
 
+        private void buttonEditClient_Click(object sender, EventArgs e)
+        {
+            string name = clientNameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Name is empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selectedIndex = ClientsListBox.SelectedIndex;
+            if (selectedIndex == -1)
+            {
+                MessageBox.Show("Select a client!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var client = clients[selectedIndex];
+
+            try
+            {
+                var cmd = new NpgsqlCommand("UPDATE clients SET name = @name WHERE id = @cid", DataBase.Connection);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@cid", client.Id);
+                cmd.ExecuteNonQuery();
+
+                clientNameTextBox.Clear();
+                LoadClients();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding client: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 }

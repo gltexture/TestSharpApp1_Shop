@@ -58,7 +58,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(609, 138);
+            this.label2.Location = new System.Drawing.Point(608, 266);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 22;
@@ -66,7 +66,7 @@
             // 
             // orderQuanityTextBox
             // 
-            this.orderQuanityTextBox.Location = new System.Drawing.Point(656, 135);
+            this.orderQuanityTextBox.Location = new System.Drawing.Point(655, 263);
             this.orderQuanityTextBox.Name = "orderQuanityTextBox";
             this.orderQuanityTextBox.Size = new System.Drawing.Size(100, 20);
             this.orderQuanityTextBox.TabIndex = 21;
@@ -76,7 +76,7 @@
             this.ClientsListBox.FormattingEnabled = true;
             this.ClientsListBox.Location = new System.Drawing.Point(69, 247);
             this.ClientsListBox.Name = "ClientsListBox";
-            this.ClientsListBox.Size = new System.Drawing.Size(379, 82);
+            this.ClientsListBox.Size = new System.Drawing.Size(216, 82);
             this.ClientsListBox.TabIndex = 20;
             // 
             // buttonRemoveOrder
@@ -122,7 +122,7 @@
             this.ProductsListBox.FormattingEnabled = true;
             this.ProductsListBox.Location = new System.Drawing.Point(69, 335);
             this.ProductsListBox.Name = "ProductsListBox";
-            this.ProductsListBox.Size = new System.Drawing.Size(379, 82);
+            this.ProductsListBox.Size = new System.Drawing.Size(216, 82);
             this.ProductsListBox.TabIndex = 25;
             // 
             // DeliveredTrueButton
@@ -163,7 +163,7 @@
             // 
             // buttonSetQuanity
             // 
-            this.buttonSetQuanity.Location = new System.Drawing.Point(612, 161);
+            this.buttonSetQuanity.Location = new System.Drawing.Point(611, 289);
             this.buttonSetQuanity.Name = "buttonSetQuanity";
             this.buttonSetQuanity.Size = new System.Drawing.Size(75, 23);
             this.buttonSetQuanity.TabIndex = 30;
@@ -174,7 +174,7 @@
             // OrderItemsListBox
             // 
             this.OrderItemsListBox.FormattingEnabled = true;
-            this.OrderItemsListBox.Location = new System.Drawing.Point(454, 263);
+            this.OrderItemsListBox.Location = new System.Drawing.Point(299, 263);
             this.OrderItemsListBox.Name = "OrderItemsListBox";
             this.OrderItemsListBox.Size = new System.Drawing.Size(302, 121);
             this.OrderItemsListBox.TabIndex = 31;
@@ -182,7 +182,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(454, 247);
+            this.label5.Location = new System.Drawing.Point(299, 247);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 32;

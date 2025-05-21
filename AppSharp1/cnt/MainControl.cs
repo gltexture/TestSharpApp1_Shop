@@ -167,7 +167,7 @@ namespace AppSharp1
 
             public override string ToString()
             {
-                return $"{Id} - {Price}";
+                return $"ID: {Id} / Price: {Price} Rubles";
             }
         }
     }

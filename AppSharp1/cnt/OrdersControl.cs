@@ -207,8 +207,6 @@ namespace AppSharp1.cnt
             this.OrdersListBox.Items.Add(this.orders.Last());
         }
 
-
-
         private void buttonRemoveOrder_Click(object sender, EventArgs e)
         {
             int idx = this.OrdersListBox.SelectedIndex;

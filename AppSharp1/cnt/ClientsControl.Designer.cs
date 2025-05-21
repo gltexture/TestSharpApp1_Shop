@@ -35,6 +35,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.buttonRemoveClient = new System.Windows.Forms.Button();
+            this.buttonEditClient = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ClientsListBox
@@ -80,16 +81,27 @@
             // 
             this.buttonRemoveClient.Location = new System.Drawing.Point(598, 3);
             this.buttonRemoveClient.Name = "buttonRemoveClient";
-            this.buttonRemoveClient.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemoveClient.Size = new System.Drawing.Size(102, 23);
             this.buttonRemoveClient.TabIndex = 5;
             this.buttonRemoveClient.Text = "Remove";
             this.buttonRemoveClient.UseVisualStyleBackColor = true;
             this.buttonRemoveClient.Click += new System.EventHandler(this.buttonRemoveClient_Click);
             // 
+            // buttonEditClient
+            // 
+            this.buttonEditClient.Location = new System.Drawing.Point(93, 26);
+            this.buttonEditClient.Name = "buttonEditClient";
+            this.buttonEditClient.Size = new System.Drawing.Size(102, 23);
+            this.buttonEditClient.TabIndex = 6;
+            this.buttonEditClient.Text = "Edit Selected";
+            this.buttonEditClient.UseVisualStyleBackColor = true;
+            this.buttonEditClient.Click += new System.EventHandler(this.buttonEditClient_Click);
+            // 
             // ClientsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonEditClient);
             this.Controls.Add(this.buttonRemoveClient);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.clientNameTextBox);
@@ -110,5 +122,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonRemoveClient;
+        private System.Windows.Forms.Button buttonEditClient;
     }
 }
